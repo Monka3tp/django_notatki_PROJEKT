@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 
-from notatki.models import Post
-
+from notatki.models import Post, Comment
+from .forms import CommentForm
 
 # Create your views here.
 # def post_list(request):
@@ -20,4 +20,12 @@ def post_detail(request, year, month, day, slug):
                              publish__year=year,
                              publish__month=month,
                              publish__day=day)
-    return render(request, 'notatki/post/detail.html', context={"post": post})
+    comments = post.comments.filter(active=True)
+    if request.method == 'POST':
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.post = post
+            comment.save()
+    comment_form = CommentForm()
+    return render(request, 'notatki/post/detail.html', context={"post": post, "comments": comments, "comment_form": comment_form})

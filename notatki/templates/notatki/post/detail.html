@@ -2,8 +2,24 @@
 {% block title %}{{ post.title }}{% endblock %}
 {% block content %}
  <h1>{{ post.title }}</h1>
- <p class="date">
- Opublikowany {{ post.publish }} przez {{ post.author }}
- </p>
- {{ post.body|linebreaks }}
+     <p class="date">
+     Opublikowany {{ post.publish }} przez {{ post.author }}
+     </p>
+     {{ post.body|linebreaks }}
+    {% for comment in comments %}
+        <div class="comment">
+        <p class="info">
+            Notatka została zaktualizowana w dniu {{ comment.created }}
+        </p>
+        {{ comment.body|linebreaks }}
+        </div>
+    {% empty %}
+
+    {% endfor %}
+    <h2>Dodaj treść do notatki</h2>
+    <form action="" method="post">
+            {{ comment_form.as_p }}
+            {% csrf_token %}
+            <p><input type="submit" value="Zapisz"></p>
+    </form>
 {% endblock %}
