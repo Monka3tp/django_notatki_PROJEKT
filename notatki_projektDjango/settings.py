@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'notatki.apps.NotatkiConfig',
     'bootstrap5',
+    'taggit',
 ]
 
 MIDDLEWARE = [

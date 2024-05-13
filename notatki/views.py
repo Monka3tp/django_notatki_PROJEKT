@@ -3,6 +3,7 @@ from django.views.generic import ListView
 
 from notatki.models import Post, Comment
 from .forms import CommentForm
+from taggit.models import Tag
 
 # Create your views here.
 # def post_list(request):
