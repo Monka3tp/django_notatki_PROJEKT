@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 
 from notatki.models import Post, Comment
-from .forms import CommentForm
+from .forms import CommentForm, PostForm
 from taggit.models import Tag
 
 # Create your views here.
@@ -30,3 +30,7 @@ def post_detail(request, year, month, day, slug):
             comment.save()
     comment_form = CommentForm()
     return render(request, 'notatki/post/detail.html', context={"post": post, "comments": comments, "comment_form": comment_form})
+
+def post_new(request):
+    form = PostForm()
+    return render(request, 'notatki/post_edit.html', {'form': form})
