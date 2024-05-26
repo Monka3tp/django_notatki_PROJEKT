@@ -1,4 +1,4 @@
-from datetime import timezone
+from django.utils import timezone
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
@@ -19,7 +19,7 @@ class PostListView(ListView):
     template_name = "notatki/post/list.html"
 
 def post_detail(request, year, month, day, slug):
-    post = get_object_or_404(Post , slug=slug, status='published',
+    post = get_object_or_404(Post, slug=slug, status='published',
                              publish__year=year,
                              publish__month=month,
                              publish__day=day)
@@ -41,7 +41,22 @@ def post_new(request):
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
-            return redirect('post_detail', pk=post.pk)
+            return redirect('notatki:post_detail')
     else:
         form = PostForm()
+    return render(request, 'notatki/post_edit.html', {'form': form})
+
+
+def post_edit(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            return redirect('notatki:post_detail', pk=post.pk)
+    else:
+        form = PostForm(instance=post)
     return render(request, 'notatki/post_edit.html', {'form': form})
