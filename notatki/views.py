@@ -56,7 +56,19 @@ def post_new(request):
     return render(request, 'notatki/post_edit.html', {'form': form})
 
 
-
+def post_edit(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            return redirect('notatki/post_detail.html', pk=post.pk)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'notatki/post_edit.html', {'form': form})
 
 # class CreateNewPost(FormView):
 #     form_class = PostForm
