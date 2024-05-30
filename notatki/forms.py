@@ -9,8 +9,8 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ('name', 'email', 'body')
 
-#
-# class PostForm(forms.ModelForm):
-#     class Meta:
-#         model = Post
-#         fields = ('title', 'text')
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('title', 'slug', 'body',)

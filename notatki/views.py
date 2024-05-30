@@ -8,7 +8,7 @@ from django.views.generic.edit import FormView
 
 from notatki.models import Post, Comment
 from . import models
-from .forms import CommentForm
+from .forms import CommentForm, PostForm
 from taggit.models import Tag
 
 
@@ -40,6 +40,22 @@ def post_detail(request, year, month, day, slug):
     comment_form = CommentForm()
     return render(request, 'notatki/post/detail.html',
                   context={"post": post, "comments": comments, "comment_form": comment_form})
+
+
+def post_new(request):
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            return redirect('notatki/post/detail.html', pk=post.pk)
+    else:
+        form = PostForm()
+    return render(request, 'notatki/post_edit.html', {'form': form})
+
+
 
 
 # class CreateNewPost(FormView):
