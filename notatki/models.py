@@ -3,9 +3,12 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 
+
+
 class PublishedManager(models.Manager):
     def get_queryset(self):
         return super(PublishedManager, self).get_queryset().filter(status='published')
+
 
 class Post(models.Model):
     objects = models.Manager()
@@ -34,9 +37,11 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('notatki:post_detail', args=[self.publish.year,
-                                                 self.publish.month,
-                                                 self.publish.day,
-                                                 self.slug])
+                                                    self.publish.strftime('%m'),
+                                                    self.publish.strftime('%d'),
+                                                    self.slug])
+
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')

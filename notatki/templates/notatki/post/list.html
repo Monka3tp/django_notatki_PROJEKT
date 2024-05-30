@@ -6,15 +6,16 @@
  <h2>
  <a class="link-underline link-underline-opacity-0" href="{{ post.get_absolute_url }}">
  {{ post.title }}
- </a>
-     {% if post.published_date %}
-                <div class="date">
-                    {{ post.published_date }}
-                </div>
-            {% endif %}
-            <a class="btn btn-default" href="{% url 'notatki:post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+</a></h2>
+{#     {% if post.published_date %}#}
+{#                <div class="date">#}
+{#                    {{ post.published_date }}#}
+{#                </div>#}
+{#            {% endif %}#}
+{#            <a class="btn btn-default" href="{% url 'notatki:post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>#}
 
- </h2>
+
+
  <p class="date">
  Opublikowany {{ post.publish }} przez {{ post.author }}
  </p>
