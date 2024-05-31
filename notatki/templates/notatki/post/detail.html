@@ -1,21 +1,29 @@
 {% extends "notatki/base.html" %}
-{% block title %}{{ post.title }}{% endblock %}
+{% block title %}{{ post.title }} {% endblock %}
 {% block content %}
- <h1>{{ post.title }}</h1>
+
+    {% if post.priority == 0 %}
+        <h1 class = "link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">{{ post.title }}</h1>
+    {% elif post.priority == 1 %}
+        <h1 class = "link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">{{ post.title }}</h1>
+
+    {% endif %}
+
      <div class="post">
         {% if post.published_date %}
             <div class="date">
                 {{ post.published_date }}
             </div>
         {% endif %}
-        <a class="btn btn-default" href="{% url 'notatki:post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil">Edytuj notatkę</span></a>
-        <p>{{ post.text|linebreaksbr }}</p>
+
+        <p>{{ post.text|linebreaks }}</p>
     </div>
 
      <p class="date">
      Opublikowany {{ post.publish }} przez {{ post.author }}
-     </p>
+     </p>  <a class="btn btn-default" href="{% url 'notatki:post_edit' pk=post.pk %}"><button class="btn btn-outline-secondary">Edytuj notatkę</button></a>
      {{ post.body|linebreaks }}
+
     {% for comment in comments %}
         <div class="comment">
         <p class="info">
@@ -26,11 +34,13 @@
     {% empty %}
 
     {% endfor %}
+    <hr>
+    <div style="margin-top: 50px">
     <h2>Dodaj treść do notatki</h2>
-    <form action="" method="post">
+    <form action="" method="post" class="bg-dark">
             {{ comment_form.as_p }}
             {% csrf_token %}
             <p><input type="submit" value="Zapisz"></p>
     </form>
-
+</div>
 {% endblock %}

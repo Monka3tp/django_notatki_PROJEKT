@@ -49,7 +49,9 @@ def post_new(request):
             post = form.save(commit=False)
             post.author = request.user
             post.published_date = timezone.now()
+            post.priority = request.POST.get('priority')
             post.save()
+
             return redirect('/notatki', pk=post.pk)
     else:
         form = PostForm()
@@ -65,7 +67,7 @@ def post_edit(request, pk):
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
-            return redirect('/post_detail.html', pk=post.pk)
+            return redirect('/notatki', pk=post.pk)
     else:
         form = PostForm(instance=post)
     return render(request, 'notatki/post_edit.html', {'form': form})
