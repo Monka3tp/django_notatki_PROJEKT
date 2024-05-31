@@ -2,6 +2,16 @@
 {% block title %}{{ post.title }}{% endblock %}
 {% block content %}
  <h1>{{ post.title }}</h1>
+     <div class="post">
+        {% if post.published_date %}
+            <div class="date">
+                {{ post.published_date }}
+            </div>
+        {% endif %}
+        <a class="btn btn-default" href="{% url 'notatki:post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil">Edytuj notatkę</span></a>
+        <p>{{ post.text|linebreaksbr }}</p>
+    </div>
+
      <p class="date">
      Opublikowany {{ post.publish }} przez {{ post.author }}
      </p>

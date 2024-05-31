@@ -50,7 +50,7 @@ def post_new(request):
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
-            return redirect('notatki/post/detail.html', pk=post.pk)
+            return redirect('/notatki', pk=post.pk)
     else:
         form = PostForm()
     return render(request, 'notatki/post_edit.html', {'form': form})
@@ -65,22 +65,9 @@ def post_edit(request, pk):
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
-            return redirect('notatki/post_detail.html', pk=post.pk)
+            return redirect('/post_detail.html', pk=post.pk)
     else:
         form = PostForm(instance=post)
     return render(request, 'notatki/post_edit.html', {'form': form})
 
-# class CreateNewPost(FormView):
-#     form_class = PostForm
-#     template_name = "notatki/create.html"
-#     success_url = "/"
-#
-#     def form_valid(self, form):
-#         form.instance.author = self.request.user
-#         new_object = Post.objects.create(
-#             title=form.cleaned_data['title'],
-#             text=form.cleaned_data['text']
-#         )
-#
-#         return super().form_valid(form)
 
